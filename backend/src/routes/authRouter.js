@@ -1,5 +1,5 @@
 import express, { Router } from "express" ; 
-import { signup ,login , logout , getAllUsers } from "../controller/authcontroller.js";
+import { signup ,login , logout , getAllUsers, updateProfile } from "../controller/authcontroller.js";
 const router = express.Router () ; 
 
 
@@ -10,7 +10,8 @@ router
 .get('/allusers' , getAllUsers) 
 .post('/signup' , signup) 
 .post('/login' , login)  
-.post('/logout' , logout)  
+.post('/logout' , logout) 
+.put("/updata-profile" , updateProfile) 
 
 
 export default router ; 
