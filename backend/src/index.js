@@ -1,10 +1,16 @@
 import express from "express";
 import mongoose from "mongoose" ; 
-import authRoutes from './routes/authRouter.js' ; 
+import authRoutes from './routes/authRouter.js' ;
+import messageRoutes from './routes/messageRouter.js' ;
+
 import dotenv from 'dotenv' ; 
-
+import cookieParser from "cookie-parser" ; 
 const app = express() ;
+app.use(cookieParser()) ; 
 
+app.use( express.json()) ; 
+app.use( "/app/auth" , authRoutes) ;
+app.use( "/app/message" , messageRoutes) ;
 dotenv.config() ; 
 
 // here we are calling the dot env and configuring it so we can use the data 
@@ -15,11 +21,10 @@ async function database() {
     await mongoose.connect(connectionString).then( e => console.log("Database connected") ); 
 } ; 
 
-app.use( express.json()) ; 
-app.use( "/app/auth" , authRoutes) ;
+// After applying cookie-parser middleware, you can easily access the cookies in your application via req.cookies 
 app.listen( port , ()=>{
     console.log(`server started at ${port}`) ; 
-    // putting the database calling function in after the server is setup 
+    // putting the database calling function in after the server is setup  
     database () ; 
  
 })

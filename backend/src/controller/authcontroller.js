@@ -6,7 +6,7 @@ export const signup = async (req, res)=>{
     const { fullName , password , email } = await req.body ; 
     // checking the valid password  
     if ( !fullName  || !email  || !password )  
-        return res.status(400). json({ messege : "Please enter valid email or User Name "})
+        return res.status(400). json({ messege : "Please enter valid email or User Name or Password"})
 
     if ( password.length < 6 )
       return res.status(400).json( {messege : ' Password must be atleat 6 characters long ' }) ; 
@@ -77,6 +77,27 @@ export const getAllUsers =async ( req, res) =>{
     res.status(200).json(data) ; 
 }
 
-export const updateProfile = (req , res )=>{
+export const updateProfile = async(req , res )=>{
+    const {profilePic} = req.body ; 
+    const userId = req.user._id ; 
+    if ( !profilePic) 
+        return res.status(400).json({messege : "Profile pic is required "}) ; 
     
+    const uploadResponse = await cloudinary.uploader.upload(profilePic) 
+    const updatedUser = await User.findByIdAndUpdate({profilePic : uploadResponse.secure_url} , { new : true } ) ; 
+       res.status(200).json (updatedUser) ; 
+
+}
+
+
+export  const checkAuth = (req  , res ) =>{
+    try {
+
+        res.status(200).json( req.user ) ; 
+    }
+    catch {
+        res.status(400).json({messege : " Error in checkAuth Controller "}) ; 
+        console.log("Error in checkAuth controller ") ;
+    }
+
 }
