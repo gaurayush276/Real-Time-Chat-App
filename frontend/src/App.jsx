@@ -4,10 +4,11 @@ import { useEffect } from "react";
 import SignUPPage from "./components/pages/SignUPPage.jsx";
 import LoginPage from "./components/pages/LoginPage.jsx";
 import ProfilePage from "./components/pages/ProfilePage.jsx";
-import SettingPage from "./components/pages/SettingsPage.jsx";
+import SettingsPage from "./components/pages/SettingsPage.jsx";
 import Home from "./components/pages/Home.jsx";
 import { Loader } from "lucide-react";
 import { useAuthStore } from "./components/store/useAuthStroe.js";
+import { useThemeStore } from "./components/store/useThemeStore.js";
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -18,13 +19,18 @@ const ProtectedRoute = ({ children }) => {
 
 
 function App() {
+  const {theme} = useThemeStore() ;
+  // console.log(theme) ; 
   const { authUser, isCheckingAuth, checkAuth } = useAuthStore();
-
   // Check authentication on app load
+  
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
-
+  
+   
+  
+   
   if (isCheckingAuth) {
     // Show loader while authentication check is in progress
     return (
@@ -56,7 +62,7 @@ function App() {
       path: "/setting",
       element: (
         <ProtectedRoute>
-          <SettingPage />
+          <SettingsPage />
         </ProtectedRoute>
       ),
     },
@@ -70,7 +76,11 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={appRouter} />;
+  return (
+    <div data-theme = {theme}> 
+      <RouterProvider router={appRouter} />
+    </div>
+  )
 }
 
 export default App;
