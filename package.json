@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "daisyui": "^4.12.14"
+  },
+  "dependencies": {
+    "react-router-dom": "^7.0.1"
+  }
+}

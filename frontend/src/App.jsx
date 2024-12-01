@@ -1,51 +1,76 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import SignUPPage from './components/pages/SignUPPage.jsx'  ;
-import LoginPage from './components/pages/LoginPage.jsx'  ;
-import ProfilePage from './components/pages/ProfilePage.jsx'  ;
-import SettingPage from './components/pages/SettingsPage.jsx'  ;
-import Body from "./components/Body.jsx";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
+ 
+import { useEffect } from "react";
+import SignUPPage from "./components/pages/SignUPPage.jsx";
+import LoginPage from "./components/pages/LoginPage.jsx";
+import ProfilePage from "./components/pages/ProfilePage.jsx";
+import SettingPage from "./components/pages/SettingsPage.jsx";
 import Home from "./components/pages/Home.jsx";
+import { Loader } from "lucide-react";
+import { useAuthStore } from "./components/store/useAuthStroe.js";
 
-const appRouter = createBrowserRouter([
-   {
-    path : '/' , 
-    element : <Body/> 
-   },
-   {
-    path : '/home' , 
-    element : <Home/> 
-   },
-   {
-    path : '/signup' , 
-    element : <SignUPPage/> 
-   },
-   {
-    path : '/login' , 
-    element : <LoginPage/> 
-   },
-   {
-    path : '/setting' , 
-    element : <SettingPage/> 
-   },
-   {
-    path : '/profile' , 
-    element : <ProfilePage/> 
-   },
+// Protected Route Component
+const ProtectedRoute = ({ children }) => {
+  const { authUser } = useAuthStore();
+  if (!authUser) return <Navigate to="/login" />;
+  return children;
+};
 
-]) ; 
 
 function App() {
+  const { authUser, isCheckingAuth, checkAuth } = useAuthStore();
 
+  // Check authentication on app load
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
-  return (
-    <>
-     <RouterProvider router = {appRouter}>
+  if (isCheckingAuth) {
+    // Show loader while authentication check is in progress
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <Loader className="w-9 h-9 animate-spin" />
+      </div>
+    );
+  }
 
-     </RouterProvider>
-      
+  // Define your routes
+  const appRouter = createBrowserRouter([
+    {
+      path: "/",
+      element: (
+        <ProtectedRoute>
+          <Home />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/signup",
+      element: authUser ? <Navigate to="/" /> : <SignUPPage />,
+    },
+    {
+      path: "/login",
+      element: authUser ? <Navigate to="/" /> : <LoginPage />,
+    },
+    {
+      path: "/setting",
+      element: (
+        <ProtectedRoute>
+          <SettingPage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/profile",
+      element: (
+        <ProtectedRoute>
+          <ProfilePage />
+        </ProtectedRoute>
+      ),
+    },
+  ]);
 
-    </>
-  )
+  return <RouterProvider router={appRouter} />;
 }
 
-export default App
+export default App;
