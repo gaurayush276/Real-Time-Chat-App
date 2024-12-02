@@ -10,7 +10,7 @@ app.use(cookieParser()) ;
 
 app.use( express.json()) ; 
 app.use( "/app/auth" , authRoutes) ;
-app.use( "/app/message" , messageRoutes) ;
+app.use( "/app/messages" , messageRoutes) ;
 dotenv.config() ; 
 
 // here we are calling the dot env and configuring it so we can use the data 
