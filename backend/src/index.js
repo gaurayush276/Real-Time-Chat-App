@@ -8,7 +8,7 @@ import cookieParser from "cookie-parser" ;
 const app = express() ;
 app.use(cookieParser()) ; 
 
-app.use( express.json()) ; 
+app.use(express.json({ limit: '10mb' }));
 app.use( "/app/auth" , authRoutes) ;
 app.use( "/app/messages" , messageRoutes) ;
 dotenv.config() ; 

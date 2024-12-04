@@ -34,5 +34,7 @@
     "sunset",
   ];
 
+  export const USER_PIC = "https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png" ; 
+
   export default THEMES ; 
   

@@ -1,7 +1,7 @@
 import Message from "../models/messegeModel.js";
 import User from "../models/usermodels.js";
 import { v2 as cloudinary } from "cloudinary"
-
+// import cloudinary from '../lib/cloudinary.js'
 export const getUsersForSideBar = async ( req , res)=>{
     const loggedInUserId =  req.user._id  ; 
     const allUser = await User.find({ _id :{ $ne : loggedInUserId}}).select("-password") ; 
@@ -34,8 +34,13 @@ export const sendMessage =async (req, res)=>{
 
     let imageUrl ; 
     if ( image ) {
-        const upload = await cloudinary.uploader.upload( image) ; 
-        imageUrl = upload.secure_url ; 
+        try {
+            const upload = await cloudinary.uploader.upload(image);
+            imageUrl = upload.secure_url;
+          } catch (uploadError) {
+            console.error("Cloudinary upload error:", uploadError);
+            return res.status(500).json({ message: "Image upload failed" });
+          }
     }
 
     const newMessage = new Message ({

@@ -8,15 +8,17 @@ const MessageInput = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
   const { sendMessage } = useChatStore();
-
+  
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    // to check if the file is an image or not  
+    console.log( file ) ;
     if (!file.type.startsWith("image/")) {
       toast.error("Please select an image file");
       return;
     }
 
-    const reader = new FileReader();
+    const reader = new FileReader(); 
     reader.onloadend = () => {
       setImagePreview(reader.result);
     };
@@ -45,12 +47,17 @@ const MessageInput = () => {
     } catch (error) {
       console.error("Failed to send message:", error);
     }
+    // console.log( {
+    //       text: text.trim(),
+    //       image: imagePreview,
+    //     })
   };
 
   return (
     <div className="p-4 w-full">
       {imagePreview && (
         <div className="mb-3 flex items-center gap-2">
+          
           <div className="relative">
             <img
               src={imagePreview}
@@ -85,7 +92,7 @@ const MessageInput = () => {
             ref={fileInputRef}
             onChange={handleImageChange}
           />
-
+   {/* fileInputRef.current provides the current value of the DOM element associated with the fileInputRef */}
           <button
             type="button"
             className={`hidden sm:flex btn btn-circle

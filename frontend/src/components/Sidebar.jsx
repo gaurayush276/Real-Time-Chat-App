@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import SidebarSkeleton from './SidebarSkeleton';
 import { Users } from 'lucide-react';
 import { useAuthStore } from './store/useAuthStroe.js';
+import { USER_PIC } from './constants/themes.js';
 const Sidebar = () => {
   const { getUsers    ,isUsersLoading , users, setSelectedUser, selectedUser} = useChatStore() ; 
 
@@ -51,7 +52,7 @@ const Sidebar = () => {
           >
             <div className="relative mx-auto lg:mx-0">
               <img
-                src={user.profilePic || "/avatar.png"}
+                src={user.profilePic || USER_PIC}
                 alt={user.name}
                 className="size-12 object-cover rounded-full"
               />
