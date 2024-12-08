@@ -26,10 +26,10 @@ const ChatContainer = () => {
 
     // todo { i have to give another dependency i.e : getMessages }
       getMessages( selectedUser._id ) ; 
-      // console.log( "selectedUser id = " , selectedUser._id )
-      // console.log( "current user of app id = " , authUser._id )
+      console.log( "selectedUser id = " , selectedUser._id )
+      console.log( "current user of app id = " , authUser._id )
       // console.log( "the get Messages called") ; 
-    } , [ selectedUser._id ]) ; 
+    } , [ selectedUser._id  , getMessages]) ; 
     
     // // if the messages has not been loaded  yet
     if (isMessagesLoading) {
@@ -43,11 +43,11 @@ const ChatContainer = () => {
   }
 
   return (
-    <div className='w-full h-full'> 
+    <div className='w-full h-full relative'> 
 
       <ChatHeader />
    {/* {  messages } */}
-   <div className="flex-1 overflow-y-auto p-4 space-y-4">
+   <div className="flex-1 overflow-y-auto p-4 space-y-4 h-[72%]">
         {messages.map((message) => (
           <div
             key={message._id}
@@ -67,7 +67,7 @@ const ChatContainer = () => {
               </div>
             </div>
             
-            <div className={`chat-bubble flex flex-col ${message.senderId === authUser._id ? "bg-primary text-neutral" : "bg-secondary text-primary"} `}>
+            <div className={`chat-bubble flex flex-col ${message.senderId === authUser._id ? "bg-primary text-neutral" : "bg-axial text-primary"} `}>
               {message.image && (
                 <img
                   src={message.image}
@@ -89,7 +89,7 @@ const ChatContainer = () => {
       </div>
       
 
-    <MessageInput />
+    <MessageInput    />
 
     </div>
   )

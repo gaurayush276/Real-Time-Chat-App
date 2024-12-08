@@ -60,12 +60,36 @@ export const useAuthStore = create( (set) =>({
             set({isLoggingUp :false}) ; 
         }
     }
+    ,logout :async ( ) =>{
+        // set( {isLoggingUp : true }) ; 
+        try {
+            const response = await axiosInstance.post("auth/logout"  ) ; 
+            set({ authUser : null }) ;
+            // console.log( response ) ; 
+ 
+        }
+        catch (error ) {
+            // console.log( "the error :" , error) ;
+            toast.error(error) ;
+        }
+
+        // finally{
+        //     set({isLoggingUp :false}) ; 
+        // }
+    }
     ,
     updateProfile: async (data) => {
         set({ isUpdatingProfile: true });
         try {
           const response = await axiosInstance.put("/auth/update-profile", data);
-          set({ authUser: response.data });
+        //   set({ authUser: response.data });
+        set((state) => ({
+            authUser: {
+              ...state.authUser,
+              ...res.data
+            },
+            isUpdatingProfile: false
+          }));
         //   console.log(response.data) ; 
           toast.success("Profile updated successfully");
         } catch (error) {

@@ -73,21 +73,70 @@ export const getAllUsers = async (req, res) => {
   res.status(200).json(data);
 };
 
+// export const updateProfile = async (req, res) => {
+//   const { profilePic } = req.body;
+//   const userId = req.user._id;
+//   if (!profilePic)
+//     return res.status(400).json({ messege: "Profile pic is required " });
+
+//   const uploadResponse = await cloudinary.uploader.upload(profilePic);
+//   const updatedUser = await User.findByIdAndUpdate(
+//     userId,
+//     { profilePic: uploadResponse.secure_url },
+//     { new: true }
+//   );
+//   res.status(200).json(updatedUser);
+// };
+
+// In your backend route handler (e.g., userController.js)
 export const updateProfile = async (req, res) => {
-  const { profilePic } = req.body;
-  const userId = req.user._id;
-  if (!profilePic)
-    return res.status(400).json({ messege: "Profile pic is required " });
+  try {
+    const { profilePic } = req.body;
+    const userId = req.user._id;
 
-  const uploadResponse = await cloudinary.uploader.upload(profilePic);
-  const updatedUser = await User.findByIdAndUpdate(
-    userId,
-    { profilePic: uploadResponse.secure_url },
-    { new: true }
-  );
-  res.status(200).json(updatedUser);
+    // Validate the base64 image
+    if (!profilePic) {
+      return res.status(400).json({ message: "No profile picture provided" });
+    }
+
+    // Upload to Cloudinary
+    let imageUrl;
+    try {
+      // Remove the data URL prefix if it exists
+      const base64Image = profilePic.replace(/^data:image\/\w+;base64,/, '');
+      
+      const uploadResponse = await cloudinary.uploader.upload(`data:image/jpeg;base64,${base64Image}`, {
+        folder: 'profile_pictures',
+        transformation: [
+          { width: 500, height: 500, crop: "fill" }, // Optional: resize and crop
+        ]
+      });
+
+      imageUrl = uploadResponse.secure_url;
+    } catch (uploadError) {
+      console.error("Cloudinary upload error:", uploadError);
+      return res.status(500).json({ 
+        message: "Image upload failed", 
+        error: uploadError.message 
+      });
+    }
+
+    // Update user in database
+    const updatedUser = await User.findByIdAndUpdate(
+      userId, 
+      { profilePic: imageUrl }, 
+      { new: true }
+    ).select("-password");
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error("Profile update error:", error);
+    res.status(500).json({ 
+      message: "Server error during profile update", 
+      error: error.message 
+    });
+  }
 };
-
 export const checkAuth = (req, res) => {
   try {
     res.status(200).json(req.user);

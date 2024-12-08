@@ -32,7 +32,7 @@ const LoginPage = () => {
   
       const success = validateForm();
    console.log(" handle submit hit") 
-   console.log(formData)
+  //  console.log(formData)
       if (success === true) login(formData);
     };
     return (

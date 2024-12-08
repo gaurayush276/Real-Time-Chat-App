@@ -13,8 +13,9 @@ export const useChatStore = create( (set , get) =>({
         set({ isUsersLoading: true });
         try {
           const res = await axiosInstance.get("/messages/users");
+          
           set({ users: res.data });
-          // console.log( "After the api call " ,  users ) ; 
+         
         } catch (error) { 
           // toast.error(error.response.data.message);
         } finally {
@@ -26,8 +27,9 @@ export const useChatStore = create( (set , get) =>({
         set({ isMessagesLoading: true });
         try {
           const res = await axiosInstance.get(`/messages/${id}`);
-          // console.log("Api call done") ; 
-          set({ message: res.data });
+          console.log(res.data) ; 
+          set({ messages: res.data });
+          console.log( "After the api call " ,  res.data  ) ; 
         } catch (error) {
           // toast.error(error.response.data.message);
         } finally {
@@ -38,7 +40,7 @@ export const useChatStore = create( (set , get) =>({
       sendMessage: async( messageData)=>{
      const { selectedUser ,  messages} = get() ;
     //  console.log( selectedUser._id) ; 
-    //  console.log( " the messeage in store " , messageData) ; 
+     console.log( " the messeage in store " , messageData) ; 
      try {
       const res = await axiosInstance.post (`/messages/send/${selectedUser._id}` , messageData) ; 
       set ( { messages : [...messages , res.data ]}) ; 
