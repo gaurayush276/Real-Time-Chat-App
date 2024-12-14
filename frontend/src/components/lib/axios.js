@@ -10,4 +10,4 @@ export const axiosInstance = axios.create({
 
 // With withCredentials: true: The browser includes the cookie, allowing the server to identify the user and process authenticated requests.
 
- 
+  

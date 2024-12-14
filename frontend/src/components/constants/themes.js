@@ -36,5 +36,7 @@
 
   export const USER_PIC = "https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png" ; 
 
+
+   export const F_BASE_URL  = "http://localhost:5001" ;
   export default THEMES ; 
   

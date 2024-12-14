@@ -5,7 +5,10 @@ import messageRoutes from './routes/messageRouter.js' ;
 import cors from 'cors' ; 
 import dotenv from 'dotenv' ; 
 import cookieParser from "cookie-parser" ; 
-const app = express() ;
+import { app  , server } from "./lib/socket.js";
+
+//  remove this line because we have already added the using server.io  server 
+// const app = express() ;
 app.use(cookieParser()) ; 
 
 
@@ -26,7 +29,7 @@ async function database() {
 } ; 
 
 // After applying cookie-parser middleware, you can easily access the cookies in your application via req.cookies 
-app.listen( port , ()=>{
+server.listen( port , ()=>{
     console.log(`server started at ${port}`) ; 
     // putting the database calling function in after the server is setup  
     database () ; 

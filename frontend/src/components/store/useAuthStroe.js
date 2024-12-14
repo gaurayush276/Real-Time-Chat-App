@@ -1,23 +1,8 @@
 import {create} from "zustand" ; 
 import { axiosInstance } from "../lib/axios.js";
 import toast from "react-hot-toast";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ import { F_BASE_URL } from "../constants/themes.js";
+import io from "socket.io-client" ; 
 export const useAuthStore = create( (set , get) =>({
     authUser : null ,
     
@@ -25,12 +10,13 @@ export const useAuthStore = create( (set , get) =>({
     isLoggingUp : false , 
     isUpdatingProflie : false , 
     isCheckingAuth  : true ,
-    // we added Here 
+    socket : null ,
     onlineUsers :[] ,
     checkAuth : async ( )=>{
         try {
             const response = await axiosInstance.get("/auth/check") ;
             set ({ authUser : response.data }) ; 
+            get().connectSocket() ; 
 
         }
         catch (error){
@@ -49,6 +35,8 @@ export const useAuthStore = create( (set , get) =>({
         try {
             const response = await axiosInstance.post('/auth/signup' , data ) ; 
             set({authUser : response.data }) ;
+            get().connectSocket() ; 
+
             toast.success("The account is created successfully")  ; 
 
         }
@@ -65,6 +53,7 @@ export const useAuthStore = create( (set , get) =>({
         try {
             const response = await axiosInstance.post("auth/login" , data ) ; 
             set({ authUser : response.data }) ;
+            get().connectSocket() ; 
             // console.log( response ) ; 
  
         }
@@ -82,6 +71,7 @@ export const useAuthStore = create( (set , get) =>({
         try {
             const response = await axiosInstance.post("auth/logout"  ) ; 
             set({ authUser : null }) ;
+            get().disconnectSocket () ; 
             // console.log( response ) ; 
  
         }
@@ -115,5 +105,20 @@ export const useAuthStore = create( (set , get) =>({
         } finally {
           set({ isUpdatingProfile: false });
         }
+      } , 
+      connectSocket :()=>{
+       const { authUser } = get() ; 
+       if ( !authUser || get().socket?.connected)
+        return ; 
+
+       const socket = io( F_BASE_URL) ; 
+       socket.connect() ; 
+
+       set({socket : socket }) ; 
+
+      } ,
+      disconnectSocket :()=>{
+if ( get().socket?.connected )
+    get().socket.disconnect() ; 
       }
 }) ) 
