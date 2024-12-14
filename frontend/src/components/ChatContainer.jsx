@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useChatStore } from './store/useChatStore';
 import ChatHeader from './chatHeader.jsx';
 import MessageSkeleton from './MessageSkeleton.jsx';
@@ -19,6 +19,8 @@ import { formatMessageTime } from '../../../backend/src/lib/time.js';
 const ChatContainer = () => {
   const { getMessages , getUsers , messages , isMessagesLoading , selectedUser} = useChatStore() ; 
   const { authUser } = useAuthStore() ; 
+  const [bg ,setBg ] = useState("") ;
+   const temp = "https://static.vecteezy.com/system/resources/thumbnails/036/226/616/small_2x/ai-generated-nature-landscapes-background-free-photo.jpg" ; 
 
 
   useEffect (() =>{
@@ -47,7 +49,7 @@ const ChatContainer = () => {
 
       <ChatHeader />
    {/* {  messages } */}
-   <div className="flex-1 overflow-y-auto p-4 space-y-4 h-[72%]">
+   <div className= {   `flex-1 overflow-y-auto p-4 space-y-4 h-[72%] pic`  }>
         {messages.map((message) => (
           <div
             key={message._id}

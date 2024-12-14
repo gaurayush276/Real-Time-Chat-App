@@ -58,3 +58,12 @@ export const sendMessage =async (req, res)=>{
 
     res.status(201).json(newMessage) ; 
 }
+
+export const findUsersByName = async(req , res)=>{
+  const { name } = req.body ; 
+  // const allUsers = await User.findOne( { fullName : name} ) ; 
+  // this { $regex: name, $options: "i" } is to get the all substring
+  const allUsers = await User.find({ fullName: { $regex: name, $options: "i" } });
+  
+  res.json ({user  : allUsers }) ;  
+}

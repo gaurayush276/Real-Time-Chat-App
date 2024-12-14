@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
  
 export const useChatStore = create( (set , get) =>({
     messages : [ ] , 
+    searchedUser :[ ] ,
     users : [] , 
     selectedUser : null , 
     isUsersLoading : false , 
@@ -51,6 +52,15 @@ export const useChatStore = create( (set , get) =>({
       } , 
         
       setSelectedUser : ( selectedUser )=> set( { selectedUser }), 
+      
+      setSearchedUserList: async(data)=>{
+            const response = await axiosInstance.post(`/messages/find` , data )  ; 
+            set({ searchedUser : response.data })  ; 
+            // set({ users : response.data })  ; 
+            console.log("okkkkkkkkkk")
+            // console.log({ searchedUser : response.data })
+            // console.log({ users : response.data })
+       }
 }))
 
 

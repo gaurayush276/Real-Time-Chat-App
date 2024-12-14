@@ -1,17 +1,33 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { useChatStore } from './store/useChatStore'
 import { useEffect } from 'react';
 import SidebarSkeleton from './SidebarSkeleton';
-import { Users } from 'lucide-react';
+import { ArrowBigRight, ArrowRight, Search, Users } from 'lucide-react';
 import { useAuthStore } from './store/useAuthStroe.js';
 import { USER_PIC } from './constants/themes.js';
 const Sidebar = () => {
-  const { getUsers    ,isUsersLoading , users, setSelectedUser, selectedUser} = useChatStore() ; 
-
+  const { getUsers    ,isUsersLoading , users, setSelectedUser, selectedUser, searchedUser , setSearchedUserList} = useChatStore() ; 
+  const [toggleSearch , setToggleSearch ] = useState(false ) ; 
   const {onlineUsers} = useAuthStore() ; 
+  const toSearch = useRef(null) ; 
+  const [searchUser , setSearchUser ] = useState(null) ; 
+ 
+  
+
+  const handleSearchUser = ()=>{
+    setToggleSearch(!toggleSearch) ; 
+    setSearchUser(toSearch.current) ; 
+
+    setSearchedUserList({name : searchUser}) ;
+    console.log(searchedUser) ;
+
+  }
+  
+ 
    useEffect  (()=>{
       getUsers() ; 
-   } , [getUsers]) ;
+   } , [getUsers ]) ;
+
 
    
 
@@ -22,9 +38,22 @@ const Sidebar = () => {
     <div>
       <aside className="h-full w-20 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200">
       <div className="border-b border-base-300 w-full p-5">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 justify-between">
+        { !toggleSearch ? (<div className='flex gap-1'>
           <Users className="size-6" />
           <span className="font-medium hidden lg:block">Contacts</span>
+          </div> ) :
+
+          <input type='text' ref={toSearch} className='w-[80%] rounded-lg bg-primary/20 text-base-content' onChange={e => setSearchUser(e.target.value)}/>
+          
+          }
+         {!toggleSearch ? ( <Search className='cursor-pointer' onClick={ e => setToggleSearch(!toggleSearch)  }/>
+      ) : 
+      ( <ArrowRight className='cursor-pointer' onClick={handleSearchUser 
+        }/>
+      )
+      
+    }
         </div>
         {/* TODO: Online filter toggle */}
         {/* <div className="mt-3 hidden lg:flex items-center gap-2">
@@ -42,7 +71,7 @@ const Sidebar = () => {
       </div>
 
       <div className="overflow-y-auto w-full py-3">
-        {users.map((user) => (
+        {   users.map((user) => (
           <button
             key={user._id}
             onClick={() => setSelectedUser(user)}
@@ -75,6 +104,7 @@ const Sidebar = () => {
             </div>
           </button>
         ))}
+        
 
         {/* {filteredUsers.length === 0 && (
           <div className="text-center text-zinc-500 py-4">No online users</div>

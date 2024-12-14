@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* .pic{
+    background-image: url("https://static.vecteezy.com/system/resources/thumbnails/036/226/616/small_2x/ai-generated-nature-landscapes-background-free-photo.jpg");
+
+    
+    background-size: cover ;
+} */
+
+
+/* .pic::after {
+    content: "";
+    position: absolute;
+    inset: -.625em;
+     
+    z-index: -1;
+} */

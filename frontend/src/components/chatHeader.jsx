@@ -15,8 +15,10 @@ const ChatHeader = () => {
           {/* Avatar */}
           <div className="avatar">
             <div className="size-10 rounded-full relative">
+  
               <img src={selectedUser.profilePic || "https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png"} alt={selectedUser.fullName} />
             </div>
+            
           </div>
 
           {/* User info */}
@@ -27,6 +29,7 @@ const ChatHeader = () => {
             </p>
           </div>
         </div>
+            <div > Bg </div>
 
         {/* Close button */}
         <button onClick={() => {setSelectedUser(null) }}>
