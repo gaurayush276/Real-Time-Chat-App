@@ -21,9 +21,11 @@ const ProtectedRoute = ({ children }) => {
 function App() {
   const {theme} = useThemeStore() ;
   // console.log(theme) ; 
-  const { authUser, isCheckingAuth, checkAuth } = useAuthStore();
+  const { authUser, isCheckingAuth, checkAuth , onlineUsers} = useAuthStore();
   // Check authentication on app load
   
+
+  console.log( onlineUsers ) ; 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
