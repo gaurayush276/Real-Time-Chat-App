@@ -7,8 +7,11 @@ import dotenv from 'dotenv' ;
 import cookieParser from "cookie-parser" ; 
 import { app  , server } from "./lib/socket.js";
 
+import path from "path" ; 
+
 //  remove this line because we have already added the using server.io  server 
 // const app = express() ;
+const dirname = path.resolve() ; 
 app.use(cookieParser()) ; 
 
 
@@ -19,7 +22,12 @@ app.use( "/app/auth" , authRoutes) ;
 app.use( "/app/messages" , messageRoutes) ;
 app.use(cors())  ; 
 dotenv.config() ; 
-
+if ( process.env.NODE_EN === "production"){
+    app.use( express.static(path.join(dirname , "../frontend/dist"))) ; 
+    app.get("*" , ( req, res)=>{
+        res.sendFile(path.join(dirnamea , "../frontend" , dist , "index.html") )
+    })
+}
 // here we are calling the dot env and configuring it so we can use the data 
 const port = process.env.PORT ; 
 const connectionString = process.env.MONGODB_URL ;

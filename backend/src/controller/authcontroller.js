@@ -113,6 +113,7 @@ export const updateProfile = async (req, res) => {
       });
 
       imageUrl = uploadResponse.secure_url;
+      console.log( "----------- the uploaded image url is ----------" , imageUrl) ; 
     } catch (uploadError) {
       console.error("Cloudinary upload error:", uploadError);
       return res.status(500).json({ 

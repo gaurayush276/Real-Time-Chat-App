@@ -12,7 +12,7 @@ router
 .post('/signup' , signup) 
 .post('/login' , login)  
 .post('/logout' , logout) 
-.put("/update-profile" , protectRoute ,  updateProfile) 
+.patch("/update-profile" , protectRoute ,  updateProfile) 
 // we  are using it because if we refresh our page then it has to check if the user is authenticated or not 
 .get('/check' , protectRoute ,  checkAuth ) ; 
 
