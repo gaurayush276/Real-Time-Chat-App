@@ -11,8 +11,7 @@ import { app  , server } from "./lib/socket.js";
 // const app = express() ;
 const __dirname = path.resolve() ; 
  
-import path from "path" ; 
-
+ 
 //  remove this line because we have already added the using server.io  server 
 // const app = express() ;
 const dirname = path.resolve() ; 
