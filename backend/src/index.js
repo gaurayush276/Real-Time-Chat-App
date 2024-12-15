@@ -6,20 +6,17 @@ import cors from 'cors' ;
 import dotenv from 'dotenv' ; 
 import cookieParser from "cookie-parser" ; 
 import { app  , server } from "./lib/socket.js";
-<<<<<<< HEAD
-import path from "path" ;
+ import path from "path" ;
 //  remove this line because we have already added the using server.io  server 
 // const app = express() ;
 const __dirname = path.resolve() ; 
-=======
-
+ 
 import path from "path" ; 
 
 //  remove this line because we have already added the using server.io  server 
 // const app = express() ;
 const dirname = path.resolve() ; 
->>>>>>> 61030bfb454a5f774a3ffeaed35845cd82b83df9
-app.use(cookieParser()) ; 
+ app.use(cookieParser()) ; 
 
 app.use(cors({
     origin : "http://localhost:5173",
