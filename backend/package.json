@@ -16,8 +16,13 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "scripts": {
+<<<<<<< HEAD
     "dev": "nodemon src/index.js" ,
     "start": "node src/index.js"
+=======
+    "start": "node src/index.js",
+    "dev" : "nodemon src/index.js"
+>>>>>>> 61030bfb454a5f774a3ffeaed35845cd82b83df9
   },
   "author": "",
   "license": "ISC",

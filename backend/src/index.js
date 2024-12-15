@@ -6,10 +6,19 @@ import cors from 'cors' ;
 import dotenv from 'dotenv' ; 
 import cookieParser from "cookie-parser" ; 
 import { app  , server } from "./lib/socket.js";
+<<<<<<< HEAD
 import path from "path" ;
 //  remove this line because we have already added the using server.io  server 
 // const app = express() ;
 const __dirname = path.resolve() ; 
+=======
+
+import path from "path" ; 
+
+//  remove this line because we have already added the using server.io  server 
+// const app = express() ;
+const dirname = path.resolve() ; 
+>>>>>>> 61030bfb454a5f774a3ffeaed35845cd82b83df9
 app.use(cookieParser()) ; 
 
 app.use(cors({
@@ -23,7 +32,12 @@ app.use(express.urlencoded({ limit: '30mb' , extended : true }));
 app.use( "/app/auth" , authRoutes) ;
 app.use( "/app/messages" , messageRoutes) ;
 dotenv.config() ; 
-
+if ( process.env.NODE_EN === "production"){
+    app.use( express.static(path.join(dirname , "../frontend/dist"))) ; 
+    app.get("*" , ( req, res)=>{
+        res.sendFile(path.join(dirname , "../frontend" , dist , "index.html") )
+    })
+}
 // here we are calling the dot env and configuring it so we can use the data 
 const port = process.env.PORT ; 
 const connectionString = process.env.MONGODB_URL ;

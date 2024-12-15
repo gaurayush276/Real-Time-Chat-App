@@ -4,9 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
     "build" : "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend" ,
     "start" : "npm run start --prefix backend" , 
     "test": "echo \"Error: no test specified\" && exit 1"
+=======
+    "build" : "npm install --prefix backend  && npm install --prefix frontend  && npm run build --prefix frontend",
+    "start": "npm run start --prefix backend" 
+>>>>>>> 61030bfb454a5f774a3ffeaed35845cd82b83df9
   },
   "keywords": [],
   "author": "",

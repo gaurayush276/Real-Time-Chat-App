@@ -1,4 +1,8 @@
 # Logs
+<<<<<<< HEAD
+=======
+node_modules
+>>>>>>> 61030bfb454a5f774a3ffeaed35845cd82b83df9
 logs
 *.log
 npm-debug.log*
@@ -6,11 +10,19 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+<<<<<<< HEAD
 .env
 node_modules
 dist
 dist-ssr
 *.local
+=======
+
+dist
+dist-ssr
+*.local
+.env
+>>>>>>> 61030bfb454a5f774a3ffeaed35845cd82b83df9
 
 # Editor directories and files
 .vscode/*
