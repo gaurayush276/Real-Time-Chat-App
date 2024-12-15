@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useChatStore } from './store/useChatStore';
 import ChatHeader from './chatHeader.jsx';
 import MessageSkeleton from './MessageSkeleton.jsx';
@@ -17,21 +17,33 @@ import { formatMessageTime } from '../../../backend/src/lib/time.js';
 
 
 const ChatContainer = () => {
-  const { getMessages , getUsers , messages , isMessagesLoading , selectedUser} = useChatStore() ; 
+  const { getMessages , getUsers , messages , isMessagesLoading , selectedUser , subscribeToMessages , unsubscribeFromMessages } = useChatStore() ; 
   const { authUser } = useAuthStore() ; 
   const [bg ,setBg ] = useState("") ;
    const temp = "https://static.vecteezy.com/system/resources/thumbnails/036/226/616/small_2x/ai-generated-nature-landscapes-background-free-photo.jpg" ; 
+   const messageEndRef = useRef(null);
 
+  //  whenever there is a new mesage this will be called
+  useEffect(() => {
+    if ( messages && messageEndRef.current)
+     messageEndRef.current.scrollIntoView() ; 
+    //  messageEndRef.current.scrollIntoView({ behavior : "smooth"}) ; 
+     
+  }, [messages])
+  
 
   useEffect (() =>{
     // { Note :we are doing it like  selectedUser._id beacause in the database the use id is saved as user._id , just beacause we are setting the perticular user as selectedUser }
 
     // todo { i have to give another dependency i.e : getMessages }
       getMessages( selectedUser._id ) ; 
-      console.log( "selectedUser id = " , selectedUser._id )
-      console.log( "current user of app id = " , authUser._id )
+      subscribeToMessages() ; 
+      // console.log( "selectedUser id = " , selectedUser._id )
+      // console.log( "current user of app id = " , authUser._id )
       // console.log( "the get Messages called") ; 
-    } , [ selectedUser._id  , getMessages]) ; 
+
+      return ()=> unsubscribeFromMessages() ; 
+    } , [ selectedUser._id  , getMessages, subscribeToMessages , unsubscribeFromMessages]) ; 
     
     // // if the messages has not been loaded  yet
     if (isMessagesLoading) {
@@ -54,7 +66,7 @@ const ChatContainer = () => {
           <div
             key={message._id}
             className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"} `}
-            // ref={messageEndRef}
+            ref={messageEndRef}
           >
             <div className=" chat-image avatar">
               <div className="size-10 rounded-full border">
@@ -89,9 +101,10 @@ const ChatContainer = () => {
           
         ))}
       </div>
-      
 
-    <MessageInput    />
+
+        <MessageInput    />
+        
 
     </div>
   )

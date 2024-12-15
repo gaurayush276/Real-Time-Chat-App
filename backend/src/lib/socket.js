@@ -12,7 +12,14 @@ const io = new Server( server , {
         origin : [ "http://localhost:5173"],    // Allow frontend URL to connect to backend
     }
 })
+
+export function getReceiverSocketId (userId){
+    return userSocketMap[userId]
+}
+// this will contain all the online users 
 const userSocketMap = { } ; 
+
+
 io.on("connection" , ( socket) =>{
     console.log("User connected" , socket.id); 
     // console.log(" the socket data is" ,  socket.handshake.query.userId)
@@ -22,7 +29,8 @@ io.on("connection" , ( socket) =>{
         userSocketMap[userId] = socket.id ; 
     console.log( "online users ,"  ,userSocketMap) ; 
     
-    // io. emit()is used  to send events to all teh connected clients  , basically broadcasting it 
+    // io. emit()is used  to send events to all the connected clients  , basically broadcasting it 
+    // where getOnlineUser is an event 
     io.emit("getOnlineUsers" , Object.keys(userSocketMap)) ; 
   console.log(Object.keys(userSocketMap))
     socket.on("disconnect" , ()=>{

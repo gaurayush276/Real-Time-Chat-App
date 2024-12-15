@@ -1,3 +1,4 @@
+import { getReceiverSocketId, io } from "../lib/socket.js";
 import Message from "../models/messegeModel.js";
 import User from "../models/usermodels.js";
 import { v2 as cloudinary } from "cloudinary"
@@ -14,7 +15,7 @@ export const getMessages = async (req, res) => {
     try {
       const { id: userToChatId } = req.params;
       const myId = req.user._id;
-  
+    // console.log( "---------->" , req.user._id) ; 
       const messages = await Message.find({
         $or: [
           { senderId: myId, receiverId: userToChatId },
@@ -55,6 +56,10 @@ export const sendMessage =async (req, res)=>{
     await newMessage.save() ;
 
     // RealTime functionality goes here 
+    const receiverSocketID = getReceiverSocketId(receiverId) ; 
+    if ( receiverSocketID){
+      io.to(receiverSocketID).emit("newMessage" , newMessage) ; 
+    }
 
     res.status(201).json(newMessage) ; 
 }
