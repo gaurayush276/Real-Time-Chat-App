@@ -68,6 +68,11 @@ export const useChatStore = create( (set , get) =>({
         if ( !selectedUser)
         return ;
 
+
+     //  ^ The line const socket = useAuthStore.getState().socket; is retrieving the existing socket instance that was already initialized and stored in the useAuthStore. It is not creating a new WebSocket connection.
+
+    // ^ So, it's simply accessing the socket object that is being managed by the useAuthStore. This allows useChatStore to reuse the same WebSocket connection for listening to or sending real-time events like "newMessage". 
+
        const socket = useAuthStore.getState().socket ;
        socket.on("newMessage" , (newMessage)=>{
         set({ messages : [ ...get().messages , newMessage] ,

@@ -41,6 +41,14 @@ io.on("connection" , ( socket) =>{
 } )
 })
 
+// Handle real-time messaging logic here
+export function handleNewMessage(newMessage) {
+    const receiverSocketID = getReceiverSocketId(newMessage.receiverId);
+    if (receiverSocketID) {
+      io.to(receiverSocketID).emit("newMessage", newMessage); // Emit to the receiver
+    }
+  }
+
  
 export { io , app ,server } ; 
 
