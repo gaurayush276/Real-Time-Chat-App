@@ -25,7 +25,7 @@ dotenv.config() ;
 if ( process.env.NODE_EN === "production"){
     app.use( express.static(path.join(dirname , "../frontend/dist"))) ; 
     app.get("*" , ( req, res)=>{
-        res.sendFile(path.join(dirnamea , "../frontend" , dist , "index.html") )
+        res.sendFile(path.join(dirname , "../frontend" , dist , "index.html") )
     })
 }
 // here we are calling the dot env and configuring it so we can use the data 
