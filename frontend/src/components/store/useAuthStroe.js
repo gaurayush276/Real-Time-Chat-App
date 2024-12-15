@@ -59,7 +59,8 @@ export const useAuthStore = create( (set , get) =>({
         }
         catch (error ) {
             // console.log( "the error :" , error) ;
-            toast.error(error) ;
+            // toast.error(error) ;
+            alert( " Unauthorized ") ; 
         }
 
         finally{
@@ -78,6 +79,8 @@ export const useAuthStore = create( (set , get) =>({
         catch (error ) {
             // console.log( "the error :" , error) ;
             toast.error(error) ;
+            alert( " Unauthorized ") ; 
+
         }
 
         // finally{
@@ -99,9 +102,13 @@ export const useAuthStore = create( (set , get) =>({
           }));
         //   console.log(response.data) ; 
           toast.success("Profile updated successfully");
+          alert( "Profile updated successfully") ; 
+
         } catch (error) {
         //   console.log("error in update profile:", error);
           toast.error(error.response );
+          alert( error.response) ; 
+
         } finally {
           set({ isUpdatingProfile: false });
         }
